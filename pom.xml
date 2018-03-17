@@ -34,17 +34,17 @@
     <scala.compat.version>2.11</scala.compat.version>
     <scala.version>2.11.8</scala.version>
 
-    <!-- ***************** -->
-    <!-- Logging Props     -->
     <!-- ***************** -->
-    <log4j.version>2.10.0</log4j.version>
+    <!-- Logginga Props    -->
+    <!-- ***************** -->
+    <log4j.version>2.10.0</log4j.version>
     <slf4j.version>1.7.25</slf4j.version>
     
-    <!-- ********************* --> 
+    <!-- ********************* -->
     <!-- Maven Resources Props -->
     <!-- ********************* -->
-    <resources.soures.input.dir>2.10.0</resources.sources.input.dir>
-    <resources.sources.output.dir>1.7.25</resources.source.output.dir>    
+    <resources.sources.input.dir>development-reosurces</resources.sources.input.dir>
+    <resources.sources.output.dir>target</resources.sources.output.dir>
     
    <!-- ************************ -->
    <!-- maven-shade plugin Props -->
@@ -61,7 +61,7 @@
             <!-- Shaded Jar Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugin</groupId>
-                <artifactId>maven.shade-plugin</maven.shade.plugin>
+                <artifactId>maven.shade-plugin</artifactId>
                 <version>3.1.0</version>
                 <executions>
                    <execution>
@@ -139,8 +139,8 @@
          </plugins>
          
          <!-- For all sub-modules, automatically shade them, use resource filtering, and chmod run.sh; this will apply to the parent too -->
-         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
+         <!--plugin>
+            <groupId>org.apache.maven.plugin</groupId>
             <artifactId>maven-shade-plugin</artifactId>
          </plugin>
          <plugin>
@@ -150,8 +150,7 @@
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-antrun-plugin</artifactId>
-         </plugin>
-         <plugin></plugin>
+         </plugin-->
      </pluginManagement>
   </build>
 
@@ -178,7 +177,7 @@
         <version>${scala.version}</version>
     </dependency>
     <dependency>
-        <groupId>org.apache.spark<groupId>
+        <groupId>org.apache.spark</groupId>
         <artifactId>spark-tags_${scala.compat.version}</artifactId>
         <version>${spark.version}</version>
     </dependency>
