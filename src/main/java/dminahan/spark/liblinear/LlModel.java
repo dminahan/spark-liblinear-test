@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 public class LLModel implements Serializable {
+   private transient static final Charset LIBLINEAR_MODEL_ENCODING=Charset.forName("UTF-8");
 
    private double bias=-1;
    private int nrClass=0;
@@ -62,5 +63,38 @@ public String getSolverType() {
 public void setSolverType(String solverType) {
 	this.solverType = solverType;
 }
+	
+public boolean equals(Object obj) {
+	if(this==obj) {
+		return true;
+	} else if(obj==null){
+		return false:
+	} else if(this.getClass() != obj.getClass()) {
+		return false;
+	} else {
+		LLModel otherLLModel=(LLModel)obj;
+		if((this.getBias()!=otherLLModel.getBias()) || (this.getNrClass()!=otherLLModel.getNrClass()) || 
+		   (this.getNrFeature()!=otherLLModel.getNrFeature()) ||(!Arrays.equals(this.getLabels(), otherLLModel.getLables()) ||
+	           (!Arrays.equals(this.getFeatureWeights(),otherLLModel.getFeatureWeights()) || !this.getSolverType().equals(otherLLModel.getSolverType()) {
+			   return false;
+		   }
+		    return true;
+	}
+}
+		    
+public String toString() {
+	StringBuffer modelBuffer = new StringBuffer();
+	modelBuffer.append("Model.toString(), bias=").append(this.getBias());
+	modelBuffer.append(", nrClass=").append(this.getNrClass());
+	modelBuffer.append(", nrFeature=").append(this.getNrFeature());
+	modelBuffer.append(", labels=").append(Arrays.toString(this.getLabels()));
+	modelBuffer.append(", featureWeights=").append(Arrays.toString(this.getFeatureWeights()));
+	if(this.getSolverType()!=null) {
+		modelBuffer.append(", solverType=").append(this.getSolverType());
+	} else {
+		modelBuffer.append", solverType is null");
+	}
+	return modelBuffer.toString();
+}	    
    
 }
