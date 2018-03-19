@@ -27,4 +27,17 @@ public class LibLinearUtility {
       model.w=llModel.getFeatureWeights();
       return model;
    }
+
+   /**
+    * Convert a list of LibLinear Models to a list of the DTO LLModels
+    */
+   public List<LLModel> convertToLlModels(List<Model> models) {
+      List<LLModel> dtoModels=new ArrayList<~>();
+   
+      for(Model model:models){
+         LLModel dtoModel=convertToLlModel(model;
+         dtoModels.add(dtoModel);
+      }
+      return dtoModels;
+   }
 }
