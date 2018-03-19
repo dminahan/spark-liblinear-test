@@ -80,7 +80,7 @@ public void run(SparkSession sparkSession) {
     dataset.show(false);
 
     dataset.write().mode(SaveMode.Overwrite).format("parquet").save("testModels.parquet");
-   Dataset<UserModel> parquetModels=sparkSession.read().load("testModels.parquest").as(encoder);
+   Dataset<UserModel> parquetModels=sparkSession.read().load("testModels.parquet").as(encoder);
    parquetModels.show(false);
    parquetModels.printSchema();
 
