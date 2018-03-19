@@ -1,9 +1,0 @@
-log4j.rootLogger=WARN, rootLoggerAppender, console
-log4j.appender.console=org.apache.log4j.ConsoleAppender
-log4j.appender.console.layout=org.apache.log4j.PatternLayout
-log4j.appender.console.layout.ConversionPattern=%d %-5p [%c] - %m%n
-
-log4j.logger.liblinear=DEBUG, mainAppAppender
-log4j.additivity.liblinear=false
-
-log4j.appender.rootLoggerAppender=org.apache.log4j.DailyRollingFileAppender
