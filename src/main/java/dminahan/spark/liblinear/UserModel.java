@@ -4,16 +4,16 @@ import java.io.Serializable;
 
 public class UserModel implements Serializable {
 
-   private String user;
+   private String name;
    private double timestamp;
    private LLModel model;
 
-   private String getUser() {
-      return this.user;
+   private String getName() {
+      return this.name;
    }
 
-   public void setUser(String user) {
-      this.user=user;
+   public void setName(String name) {
+      this.name=name;
    }
 
    public double getTimestamp(){

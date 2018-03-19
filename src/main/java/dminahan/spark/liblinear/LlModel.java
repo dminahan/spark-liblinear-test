@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 public class LLModel implements Serializable {
-   private transient static final Charset LIBLINEAR_MODEL_ENCODING=Charset.forName("UTF-8");
+   //private transient static final Charset LIBLINEAR_MODEL_ENCODING=Charset.forName("UTF-8");
 
    private double bias=-1;
    private int nrClass=0;
@@ -68,14 +68,14 @@ public boolean equals(Object obj) {
 	if(this==obj) {
 		return true;
 	} else if(obj==null){
-		return false:
+		return false;
 	} else if(this.getClass() != obj.getClass()) {
 		return false;
 	} else {
 		LLModel otherLLModel=(LLModel)obj;
 		if((this.getBias()!=otherLLModel.getBias()) || (this.getNrClass()!=otherLLModel.getNrClass()) || 
-		   (this.getNrFeature()!=otherLLModel.getNrFeature()) ||(!Arrays.equals(this.getLabels(), otherLLModel.getLables()) ||
-	           (!Arrays.equals(this.getFeatureWeights(),otherLLModel.getFeatureWeights()) || !this.getSolverType().equals(otherLLModel.getSolverType()) {
+		   (this.getNrFeature()!=otherLLModel.getNrFeature()) ||(!Arrays.equals(this.getLabels(), otherLLModel.getLabels())) ||
+	           (!Arrays.equals(this.getFeatureWeights(),otherLLModel.getFeatureWeights())) || !this.getSolverType().equals(otherLLModel.getSolverType())) {
 			   return false;
 		   }
 		    return true;
@@ -92,7 +92,7 @@ public String toString() {
 	if(this.getSolverType()!=null) {
 		modelBuffer.append(", solverType=").append(this.getSolverType());
 	} else {
-		modelBuffer.append", solverType is null");
+		modelBuffer.append(", solverType is null");
 	}
 	return modelBuffer.toString();
 }	    

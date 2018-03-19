@@ -2,6 +2,9 @@ package de.bwaldvogel.liblinear;
 
 import dminahan.spark.liblinear.LLModel;
 
+import java.util.List;
+import java.util.ArrayList;
+
 public class LibLinearUtility {
 
    public static LLModel convertToLLModel(Model model) {
@@ -31,12 +34,13 @@ public class LibLinearUtility {
    /**
     * Convert a list of LibLinear Models to a list of the DTO LLModels
     */
-   public List<LLModel> convertToLlModels(List<Model> models) {
-      List<LLModel> dtoModels=new ArrayList<~>();
-   
-      for(Model model:models){
-         LLModel dtoModel=convertToLlModel(model;
-         dtoModels.add(dtoModel);
+   public static List<LLModel> convertToLlModels(List<Model> models) {
+      //List<LLModel> dtoModels=new ArrayList<~>();
+      List<LLModel> dtoModels=new ArrayList<LLModel>();
+
+      for(Model model: models){
+        LLModel dtoModel=convertToLLModel(model);
+        dtoModels.add(dtoModel);
       }
       return dtoModels;
    }

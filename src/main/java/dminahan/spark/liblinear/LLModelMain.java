@@ -1,7 +1,8 @@
 package dminahan.spark.liblinear;
 
 import de.bwaldvogel.liblinear.*;
-import org.apache.commons.lang.ArrayUtils;
+//import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.ForeachFunction;
@@ -110,22 +111,22 @@ public void run(SparkSession sparkSession) {
       //LOGGER.warn(""+((Row)row.getAs("llModel")).getAs("model").getAs("bias"));
    });
    
-   Dataset<ScoringCombinedInput> scoringCombined=joinedDS.as(Encoders.bean(ScoringCombinedInput.class));
+   Dataset<CombinedScoringInput> scoringCombined=joinedDS.as(Encoders.bean(CombinedScoringInput.class));
    scoringCombined.printSchema();
    scoringCombined.show(false);
-   scoringCombined.foreach((ForeachFunction<ScoringCombinedInput>)row -> {
+   scoringCombined.foreach((ForeachFunction<CombinedScoringInput>)row -> {
       LLModel dsModel=row.getModel();
       Model libLinearModel=LibLinearUtility.convertFromLLModel(dsModel);
       double[]vectors=row.getVector();
       ArrayList<Feature> features=new ArrayList<Feature>();
-      for(int i=0; i<vecctors.length;i++) {
-         FeatureNode feature=new FeatureNode(i+1, vecctors[i]);
+      for(int i=0; i<vectors.length;i++) {
+         FeatureNode feature=new FeatureNode(i+1, vectors[i]);
          features.add(feature);
       }
       
       double[] probabilities=new double[dsModel.getNrClass()];
       Feature[] featureSize=new Feature[features.size()];
-      System.out.println("predict output is: " + Linear.predictProbability(libLinearModel, featuresArray, probabilities));
+      System.out.println("predict output is: " + Linear.predictProbability(libLinearModel, features, probabilities));
       System.out.println("probablities are: " + Arrays.toString(probabilities));
    });
 
@@ -163,7 +164,8 @@ public static Model createModel(Parameter parameterIn, int trainingSize, int fea
           double d = r.nextDouble();
           vectors.add(d);
        }
-       Double[] vectorArray=((Double[])vectors.toArray(new Double{vectors.size()]);
+       Double[] vectorArray=((Double[])vectors.toArray(new Double(vectors.size())));
+       //Double[] vectorArray=((Double[])vectors.toArray(new Double(vectors.size())));
        input.setVector(ArrayUtils.toPrimitive(vectorArray));
        listOfScoringVectors.add(input);
     }
