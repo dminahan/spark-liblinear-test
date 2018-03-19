@@ -3,7 +3,7 @@ package dminahan.spark.liblinear;
 public class CombinedScoringInput {
    private String id;
    private String memberId;
-   private double vector;
+   private double[] vector;
    private LLModel model;
    private String name;
    private double timestamp;
@@ -24,11 +24,11 @@ public class CombinedScoringInput {
       this.memberId=memberId;
    }
 
-   public double getVector() {
+   public double[] getVector() {
       return this.vector;
    }
 
-   public void setVector(double vector) {
+   public void setVector(double[] vector) {
       this.vector=vector;
    }
 
