@@ -5,7 +5,7 @@ public class CombinedScoringInput {
    private String memberId;
    private double vector;
    private LLModel model;
-   private String user;
+   private String name;
    private double timestamp;
 
    public String getId() {
@@ -40,12 +40,12 @@ public class CombinedScoringInput {
       this.model=model;
    }
 
-   public String getUser(){
-      return this.user;
+   public String getName(){
+      return this.name;
    }
 
-   public void setUser(String user) {
-      this.user=user;
+   public void setName(String name) {
+      this.name=name;
    }
 
    public double getTimestamp() {
