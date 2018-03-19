@@ -3,7 +3,7 @@ package dminahan.spark.liblinear;
 public class ScoringInput {
    private String id;
    private String memberId;
-   private double vector;
+   private double[] vector;
 
    public String getId() {
       return this.id;
@@ -21,11 +21,11 @@ public class ScoringInput {
       this.memberId=memberId;
    }
 
-   public double getVector() {
+   public double[] getVector() {
       return this.vector;
    }
 
-   public void setVector(double vector) {
+   public void setVector(double[] vector) {
       this.vector=vector;
    }
 }
