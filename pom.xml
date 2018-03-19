@@ -139,7 +139,7 @@
          </plugins>
          
          <!-- For all sub-modules, automatically shade them, use resource filtering, and chmod run.sh; this will apply to the parent too -->
-         <!--plugin>
+         <!-- <plugin>
             <groupId>org.apache.maven.plugin</groupId>
             <artifactId>maven-shade-plugin</artifactId>
          </plugin>
@@ -150,7 +150,7 @@
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-antrun-plugin</artifactId>
-         </plugin-->
+         </plugin> -->
      </pluginManagement>
   </build>
 
@@ -174,7 +174,7 @@
     <dependency>
         <groupId>org.apache.spark</groupId>
         <artifactId>spark-core_${scala.compat.version}</artifactId>
-        <version>${scala.version}</version>
+        <version>${spark.version}</version>
     </dependency>
     <dependency>
         <groupId>org.apache.spark</groupId>

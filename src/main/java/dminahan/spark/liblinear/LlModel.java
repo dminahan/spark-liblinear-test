@@ -1,6 +1,7 @@
 package dminahan.spark.liblinear;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class LLModel implements Serializable {
 
@@ -8,8 +9,8 @@ public class LLModel implements Serializable {
    private int nrClass=0;
    private int nrFeature=0;
 
-   private double[] labels;
-   private double[] featureWeights;`
+   private int[] labels;
+   private double[] featureWeights;
 
    private String solverType="L2R_LR";
 
@@ -37,12 +38,12 @@ public class LLModel implements Serializable {
       this.nrFeature=nrFeature;
    }
 
-   public double[] getLabels() {
+   public int[] getLabels() {
       return this.labels;
    }
 
-   public void setLabels(double[] labels){
-      Arrays.copyOf(this.labels, labels);
+   public void setLabels(int[] labels){
+	   this.labels= Arrays.copyOf(labels, labels.length);
    }
 
 
@@ -51,6 +52,15 @@ public class LLModel implements Serializable {
    }
 
    public void setFeatureWeights(double[] weights) {
-      Arrays.copyOf(this.featureWeights, weights);
+      this.featureWeights=Arrays.copyOf(weights, weights.length);
    }
+
+public String getSolverType() {
+	return solverType;
+}
+
+public void setSolverType(String solverType) {
+	this.solverType = solverType;
+}
+   
 }

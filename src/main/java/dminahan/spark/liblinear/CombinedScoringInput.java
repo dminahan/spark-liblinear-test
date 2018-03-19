@@ -1,6 +1,6 @@
 package dminahan.spark.liblinear;
 
-public class ScoringInput {
+public class CombinedScoringInput {
    private String id;
    private String memberId;
    private double vector;

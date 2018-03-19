@@ -1,9 +1,12 @@
 package dminahan.spark.liblinear;
 
+import java.io.Serializable;
 
-Public class LLTestModelMainTest extends JavaDatasetSuiteBase implements Serializable {
+import com.holdenkarau.spark.testing.JavaDatasetSuiteBase;
+
+public class LLTestModelMain extends JavaDatasetSuiteBase implements Serializable {
 
     public void test() {
-          new LLTestModelMain().run(spark());
+          new LLModelMain().run(spark());
     }
 }

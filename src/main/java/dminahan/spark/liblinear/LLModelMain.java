@@ -2,8 +2,9 @@ package dminahan.spark.liblinear;
 
 import de.bwaldvogel.liblinear.*;
 import org.apache.commons.lang.ArrayUtils;
-import org.apache.spark.sql.java.JavaSparkContext;
-import org.apache.spark.api.java.function.ForeachFuntion;
+import org.apache.spark.SparkConf;
+import org.apache.spark.api.java.JavaSparkContext;
+import org.apache.spark.api.java.function.ForeachFunction;
 import org.apache.spark.sql.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,13 +15,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class LLModelmain implements Serializable {
+public class LLModelMain implements Serializable {
 
    public JavaSparkContext context;
    public SQLContext sqlContext=null;
    
    private static final Logger LOGGER=LoggerFactory.getLogger(LLModelMain.class);
-   private static Solvertype defaultSolverType=SolverType.L2R_LR;
+   private static SolverType defaultSolverType=SolverType.L2R_LR;
    private static double defaultBias=-1; //Means we will not have a bias feature entry
    private static double defaultCostOfContraints=1.0;
    private static double epsilon=0.01;
@@ -42,44 +43,44 @@ public class LLModelmain implements Serializable {
    private static FeatureNode[][] smallTrainingSet={instance1,instance2,instance3};
 
  
-public static void main(String… args) {
-   LLTestModelMain modelMain= new LLTestModelMain();
+public static void main(String args) {
+   LLModelMain modelMain= new LLModelMain();
    modelMain.init();
-   moelMain.run(modelMain.sqlContext.sparkSession());
+   modelMain.run(modelMain.sqlContext.sparkSession());
 }
 
 public void init() {
-   String master=”local[*]”;
+   String master="local[*]";
    SparkConf conf =new SparkConf()
-                .setAppName(LLTestModelMain.class.getName())
+                .setAppName(LLModelMain.class.getName())
                 .setMaster(master);
     
-   Context=new JavaSparkContext(conf);
+   context=new JavaSparkContext(conf);
    sqlContext=new SQLContext(context);
 }
 
 public void run(SparkSession sparkSession) {
-    LibLinearModel llModel=new LibLinearModel();
+    LLModel llModel=new LLModel();
 
-   Parameter parameter = new Parameter(defaultSolverType, defaultCostOfConstraints, epsilon);
-   Model model=createModel(parameter, 5, 5, defaultBias, fullLabels, fullTrainingSet);
-   llModel.setModel(model;
+   Parameter parameter = new Parameter(defaultSolverType, defaultCostOfContraints, epsilon);
+   Model model=createModel(parameter, 5, 5, defaultBias, fullLables, fullTrainingSet);
+   llModel=LibLinearUtility.convertToLLModel(model);
 
-   ModelUser userModel=new ModelUser();
-   userModel=setUserName(“user1”);
+   UserModel userModel=new UserModel();
+   userModel.setUser("user1");
    userModel.setModel(llModel);
 
-   List<ModelUser> listOfModels=new ArrayList<ModelUser>();
+   List<UserModel> listOfModels=new ArrayList<UserModel>();
    listOfModels.add(userModel);
 
     //1. Enoder by bean
-    Encoder<ModelUser> encoder=Encoders.bean(ModelUser.class);
-    Dataset<ModelUser> dataset=sparkSession.createDataset(listOfModels, encoder);
+    Encoder<UserModel> encoder=Encoders.bean(UserModel.class);
+    Dataset<UserModel> dataset=sparkSession.createDataset(listOfModels, encoder);
     dataset.printSchema();
     dataset.show(false);
 
-    dataset.write().mode(SaveModel.Overwrite).format(“parquet”).save(“testModels.parquet”);
-   Dataset<ModelUser> parquetModels=sparkSession.read().load(“testModels.parquest”).as(encoder);
+    dataset.write().mode(SaveMode.Overwrite).format("parquet").save("testModels.parquet");
+   Dataset<UserModel> parquetModels=sparkSession.read().load("testModels.parquest").as(encoder);
    parquetModels.show(false);
    parquetModels.printSchema();
 
@@ -87,16 +88,16 @@ public void run(SparkSession sparkSession) {
 //  System.out.println(“ModelUser is: “+ record.toString());
 //}
 
-   parquetModels.createOrReplaceTempView(“models”);
-   Dataset<Row> llModels=sparkSession.sql(“SELECT model FROM models”);
-   Dataset<Model> models=llModels.as(Encoders.beam(Model.class));
-   models.foreach((ForeachFunction<Model>) row-> LOGGER.warn(“model is: “ + row.toString()));
+   parquetModels.createOrReplaceTempView("models");
+   Dataset<Row> llModels=sparkSession.sql("SELECT model FROM models");
+   Dataset<Model> models=llModels.as(Encoders.bean(Model.class));
+   models.foreach((ForeachFunction<Model>) row-> LOGGER.warn("model is: " + row.toString()));
 
 //parquetModels.foreach((ForeachFunction<ModelUser>)row -> LOGGER.warn(“Read in LLModel is: “ + row.toString()));
 
-   List<SocringInput> scoresInputList=generateScoringDataset();
+   List<ScoringInput> scoresInputList=generateScoringDataSet();
    Encoder<ScoringInput> scoringEncoder=Encoders.bean(ScoringInput.class);
-   Dataset<ScoringInput> datasetScores=sparkSession.createDataset(scoresInputList, scoresEncoder);
+   Dataset<ScoringInput> datasetScores=sparkSession.createDataset(scoresInputList, scoringEncoder);
 
    Dataset<Row> joinedDS=datasetScores.crossJoin(dataset);
   //For each try, resulted in class cast exception
@@ -104,9 +105,9 @@ public void run(SparkSession sparkSession) {
    joinedDS.show(false);
    joinedDS.printSchema();
 
-   joinedDS.foreach((ForeachFunction<Row>) row -> LOGGER.warn(“row vector is: “ + row.getAs(“vector”)));
+   joinedDS.foreach((ForeachFunction<Row>) row -> LOGGER.warn("row vector is: " + row.getAs("vector")));
    joinedDS.foreach((ForeachFunction<Row>)row -> {
-      LOGGER.warn(“”+((Row)((Row).getAs(“llModel”)).getAs(“model”)).getAs(“bias”));
+      //LOGGER.warn(""+((Row)row.getAs("llModel")).getAs("model").getAs("bias"));
    });
 
 }
@@ -126,16 +127,16 @@ public static Model createModel(Parameter parameterIn, int trainingSize, int fea
 
  
 
-  public static List<ScoringInput> genericScoringDataSet() {
-    List<ScoringInput> listOfScoringVectors=new ArrayList<~>();
-    Int scores=10;
+  public static List<ScoringInput> generateScoringDataSet() {
+    List<ScoringInput> listOfScoringVectors=new ArrayList<>();
+    int scores=10;
     ScoringInput input=null;
 
     Random r = new Random();
     for(int i=0; i<scores; i++) {
       input=new ScoringInput();
-      input.setId(“id”+i);
-      input.setMemberId(“memberId”+i);
+      input.setId("id"+i);
+      input.setMemberId("memberId"+i);
       double d =r.nextDouble();
       input.setVector(d);
       listOfScoringVectors.add(input);

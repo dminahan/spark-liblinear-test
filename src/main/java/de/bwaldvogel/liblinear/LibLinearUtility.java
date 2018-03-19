@@ -1,27 +1,27 @@
 package de.bwaldvogel.liblinear;
 
-import dminahan.spark.liblinear;
+import dminahan.spark.liblinear.LLModel;
 
 public class LibLinearUtility {
 
-   public LLModel convertToLLModel(Model model) {
+   public static LLModel convertToLLModel(Model model) {
       LLModel llModel=new LLModel();
       llModel.setBias(model.bias);
       llModel.setNrClass(model.nr_class);
       llModel.setNrFeature(model.nr_feature);
-      llModel.setLabel(model.label);
+      llModel.setLabels(model.label);
       llModel.setFeatureWeights(model.w);
       llModel.setSolverType(model.solverType.name());
       return llModel;
    }
 
-   public Model convertFromLLModel(LLModel llModel){
+   public static Model convertFromLLModel(LLModel llModel){
       Model model=new Model();
       model.bias=llModel.getBias();
       model.nr_class=llModel.getNrClass();
       model.nr_feature=llModel.getNrFeature();
       model.solverType=SolverType.valueOf(llModel.getSolverType());
-      model.label=llModel.getLabel();
+      model.label=llModel.getLabels();
       model.w=llModel.getFeatureWeights();
       return model;
    }
