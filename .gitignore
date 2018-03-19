@@ -10,3 +10,7 @@
 # Maven
 release.properties
 target/
+
+#Generated files
+derby.log
+testModels.parquet
