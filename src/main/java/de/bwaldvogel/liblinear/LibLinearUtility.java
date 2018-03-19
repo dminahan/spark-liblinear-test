@@ -5,6 +5,7 @@ import dminahan.spark.liblinear.LLModel;
 public class LibLinearUtility {
 
    public static LLModel convertToLLModel(Model model) {
+      Linear.disableDebugOutput();
       LLModel llModel=new LLModel();
       llModel.setBias(model.bias);
       llModel.setNrClass(model.nr_class);
@@ -16,6 +17,7 @@ public class LibLinearUtility {
    }
 
    public static Model convertFromLLModel(LLModel llModel){
+      Linear.disableDebugOutput();
       Model model=new Model();
       model.bias=llModel.getBias();
       model.nr_class=llModel.getNrClass();
