@@ -43,8 +43,8 @@
     <!-- ********************* -->
     <!-- Maven Resources Props -->
     <!-- ********************* -->
-    <resources.sources.input.dir>development-reosurces</resources.sources.input.dir>
-    <resources.sources.output.dir>target</resources.sources.output.dir>
+    <resources.sources.input.dir>src/main/external-reosurces</resources.sources.input.dir>
+    <resources.sources.output.dir>${basedir}/target</resources.sources.output.dir>
     
    <!-- ************************ -->
    <!-- maven-shade plugin Props -->
@@ -56,7 +56,16 @@
   </properties>
   
   <build>
-     <pluginManagement>
+    <filters>
+      <filter>profiles/${build.profile.id}/config.properties</filter>
+    </filters>
+    <resources>
+      <resource>
+        <filtering>true</filtering>
+        <directory>src/main/resources</directory>
+      </resource>
+    </resources>
+     <!--<pluginManagement>-->
          <plugins>
             <!-- Shaded Jar Plugin -->
             <plugin>
@@ -116,7 +125,44 @@
                   </execution>
                </executions>
             </plugin>
-            <!-- antrun plugin -->
+           <plugin>
+             <groupId>org.apache.maven.plugins</groupId>
+             <artifactId>maven-site-plugin</artifactId>
+           </plugin>
+           <!--plugin>
+             <groupId>org.apache.maven.plugins</groupId>
+             <artifactId>maven-compiler-plugin</artifactId>
+             <configuration>
+               <source>1.8</source>
+               <target>1.8</target>
+             </configuration>
+           </plugin-->
+           <plugin>
+             <artifactId>maven-surefire-plugin</artifactId>
+             <version>2.12.4</version>
+             <dependencies>
+               <dependency>
+                 <groupId>org.apache.maven.surefire</groupId>
+                 <artifactId>surefire-junit47</artifactId>
+                 <version>2.0.1</version>
+               </dependency>
+               <configuration>
+                 <includes>
+                   <include>**/*Test*.java</include>
+                 </includes>
+               </configuration>
+               <executions>
+                 <execution>
+                   <id>default-test</id>
+                   <phase>test</phase>
+                   <goals>
+                     <goal>test</goal>
+                   </goals>
+                 </execution>
+               </executions>
+             </dependencies>
+           </plugin>
+            <!-- antrun plugin, probably remove as I don't need this -->
             <plugin>
               <groupId>org.apache.maven.plugin</groupId>
               <artifactId>maven-antrun-plugin</artifactId>
@@ -151,7 +197,7 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-antrun-plugin</artifactId>
          </plugin> -->
-     </pluginManagement>
+     <!--</pluginManagement>-->
   </build>
 
   <dependencies>
