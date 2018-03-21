@@ -18,6 +18,7 @@ import java.util.Random;
 
 public class LLModelMain implements Serializable {
 
+   private static final long serialVersionUID = 477217622576241506L;
    public JavaSparkContext context;
    public SQLContext sqlContext=null;
    

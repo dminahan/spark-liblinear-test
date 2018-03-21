@@ -4,11 +4,12 @@ import java.io.Serializable;
 
 public class UserModel implements Serializable {
 
+private static final long serialVersionUID = 1946360051697544747L;
    private String name;
    private double timestamp;
    private LLModel model;
 
-   private String getName() {
+   public String getName() {
       return this.name;
    }
 

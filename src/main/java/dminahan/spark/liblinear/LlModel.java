@@ -6,6 +6,8 @@ import java.util.Arrays;
 public class LLModel implements Serializable {
    //private transient static final Charset LIBLINEAR_MODEL_ENCODING=Charset.forName("UTF-8");
 
+
+   private static final long serialVersionUID = -7971699861889193026L;
    private double bias=-1;
    private int nrClass=0;
    private int nrFeature=0;
