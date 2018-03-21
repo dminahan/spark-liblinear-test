@@ -126,7 +126,9 @@ public void run(SparkSession sparkSession) {
       
       double[] probabilities=new double[dsModel.getNrClass()];
       Feature[] featureSize=new Feature[features.size()];
-      System.out.println("predict output is: " + Linear.predictProbability(libLinearModel, features, probabilities));
+      featureSize = features.toArray(featureSize);
+
+      System.out.println("predict output is: " + Linear.predictProbability(libLinearModel, featureSize, probabilities));
       System.out.println("probablities are: " + Arrays.toString(probabilities));
    });
 
@@ -164,7 +166,7 @@ public static Model createModel(Parameter parameterIn, int trainingSize, int fea
           double d = r.nextDouble();
           vectors.add(d);
        }
-       Double[] vectorArray=((Double[])vectors.toArray(new Double(vectors.size())));
+       Double[] vectorArray=((Double[])vectors.toArray(new Double[vectors.size()]));
        //Double[] vectorArray=((Double[])vectors.toArray(new Double(vectors.size())));
        input.setVector(ArrayUtils.toPrimitive(vectorArray));
        listOfScoringVectors.add(input);
